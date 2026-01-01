@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>玩游戏的鲁邦 Player </title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #e74c3c;
+            text-align: center;
+        }
+        .file-area {
+            border: 3px dashed #3498db;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 10px;
+            background: #ecf0f1;
+            cursor: pointer;
+        }
+        .instructions {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 玩游戏的鲁邦 Player</h1>
+        
+        <div class="file-area" onclick="document.getElementById('realFileInput').click()">
+            <div style="font-size: 48px;">📁</div>
+            <div style="font-size: 18px; font-weight: bold; margin: 10px 0;">点击这里选择音乐文件</div>
+            <div style="font-size: 14px; color: #666;">支持 MP3, FLAC, WAV 等格式</div>
+        </div>
+        
+        <div class="instructions">
+            <strong>使用说明：</strong><br>
+            1. 点击上方区域选择音乐文件<br>
+            2. 使用下方播放器控制播放<br>
+            3. 如果无法选择，请使用Chrome浏览器
+        </div>
+        
+        <div id="fileInfo" style="background: #d4edda; padding: 10px; border-radius: 5px; margin: 10px 0;">
+            等待选择文件...
+        </div>
+        
+        <audio id="audioPlayer" controls style="width: 100%; margin: 15px 0;">
+            您的浏览器不支持音频播放
+        </audio>
+        
+        <div class="footer">
+            玩游戏的鲁邦 Player<br>
+            <small>© 2025 玩游戏的鲁邦</small>
+        </div>
+    </div>
+
+    <!-- 文件输入 -->
+    <input type="file" id="realFileInput" accept="audio/*" style="display: none;">
+
+    <script>
+        const fileInput = document.getElementById('realFileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const audioPlayer = document.getElementById('audioPlayer');
+        
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                fileInfo.innerHTML = `
+                    <strong>已选择文件：</strong><br>
+                    名称: ${file.name}<br>
+                    大小: ${(file.size / 1024 / 1024).toFixed(2)} MB<br>
+                    类型: ${file.type || '未知'}
+                `;
+                
+                // 设置音频源
+                audioPlayer.src = URL.createObjectURL(file);
+                
+            } else {
+                fileInfo.innerHTML = '未选择文件';
+            }
+        });
+    </script>
+</body>
+</html>
